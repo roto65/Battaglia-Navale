@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Timer;
+//import java.util.Timer;
 
 import javax.swing.JPanel;
 
@@ -35,7 +35,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	public Board () {
 		
 		setPreferredSize(new Dimension(COLUMNS * TITLE_SIZE, ROWS * TITLE_SIZE));
-		setBackground(new Color(232, 232, 232));
+		setBackground(new Color(19, 191, 54));
 		
 		player = new Player();
 		
@@ -45,15 +45,15 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		player.tick();
-		
-		repaint();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		player.keyPressed(e);		
+		player.keyPressed(e);
+		
+		player.tick();
+		
+		repaint();
 	}
 
 	@Override
@@ -72,8 +72,11 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		
 		drawBackground(g);
 		
-		for (Nave nave : navi) {
-			nave.draw(g,this);
+		if (navi != null) {
+		
+			for (Nave nave : navi) {
+				nave.draw(g,this);
+			}
 		}
 		
 		player.draw(g, this);
@@ -83,7 +86,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
 	private void drawBackground(Graphics g) {
 		
-		g.setColor(new Color(214, 214, 214));
+		g.setColor(new Color(0, 145, 29));
 		
 		for (int row = 0; row < ROWS; row++) {
 			for (int column = 0; column < COLUMNS; column++) {

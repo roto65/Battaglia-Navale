@@ -48,8 +48,14 @@ public class Nave {
 	
 	public void draw(Graphics g, ImageObserver observer) {
 		
-		g.drawImage(image, pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, observer);
-		
+		if (length == 1) {
+			g.drawImage(sprites.get(0), pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, Board.TITLE_SIZE, Board.TITLE_SIZE,observer);
+		} else {
+			for (int i = 0; i < length; i++) {
+				
+				
+			}
+		}
 	}
 
 	public Point getPos() {

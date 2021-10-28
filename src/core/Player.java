@@ -1,8 +1,10 @@
 package core;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
@@ -35,8 +37,21 @@ public class Player {
 	
 	public void draw(Graphics g, ImageObserver observer) {
 		
-		g.drawImage(image, pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, observer);
+		//g.drawImage(image, pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, Board.TITLE_SIZE, Board.TITLE_SIZE, observer);
 		
+		Graphics2D g2d = (Graphics2D) g;
+		
+		AffineTransform backup = g2d.getTransform();
+		
+		double rotation = Math.toRadians(90);
+		double locationX = pos.x * Board.TITLE_SIZE + (Board.TITLE_SIZE /2);
+		double locationY = pos.y * Board.TITLE_SIZE + (Board.TITLE_SIZE /2);
+		
+		AffineTransform tx = AffineTransform.getRotateInstance(rotation, locationX, locationY);
+		g2d.setTransform(tx);
+		g2d.drawImage(image, pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, Board.TITLE_SIZE, Board.TITLE_SIZE, observer);
+		
+		g2d.setTransform(backup);
 	}
 	
 	public void keyPressed(KeyEvent e) {
@@ -54,6 +69,9 @@ public class Player {
 		}
 		if (key == KeyEvent.VK_LEFT) {
 			pos.translate(-1, 0);
+		}
+		if (key == KeyEvent.VK_ESCAPE) {
+			System.exit(0);
 		}
 		
 	}
