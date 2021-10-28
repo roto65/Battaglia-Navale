@@ -29,15 +29,21 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	// private Timer timer; //useless?
 	
 	private Player player;
+	private Nave nave;
 	
 	private ArrayList <Nave> navi;
 	
 	public Board () {
 		
 		setPreferredSize(new Dimension(COLUMNS * TITLE_SIZE, ROWS * TITLE_SIZE));
-		setBackground(new Color(19, 191, 54));
+		setBackground(new Color(46, 91, 255));
 		
 		player = new Player();
+		
+		nave = new Nave(5,5,3,0);
+		
+		navi = new ArrayList <Nave> ();
+		navi.add(nave);
 		
 		//timer = new Timer(DELAY, this); //useless?
 		//timer.start(); //useless?
@@ -71,22 +77,21 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		super.paintComponent(g);
 		
 		drawBackground(g);
-		
-		if (navi != null) {
-		
-			for (Nave nave : navi) {
-				nave.draw(g,this);
-			}
+	
+		for (Nave nave : navi) {
+			nave.draw(g,this);
+			
 		}
 		
 		player.draw(g, this);
 		
+
 		Toolkit.getDefaultToolkit().sync();
 	}
 
 	private void drawBackground(Graphics g) {
 		
-		g.setColor(new Color(0, 145, 29));
+		g.setColor(new Color(46, 140, 255));
 		
 		for (int row = 0; row < ROWS; row++) {
 			for (int column = 0; column < COLUMNS; column++) {

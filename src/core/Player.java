@@ -43,31 +43,32 @@ public class Player {
 		
 		AffineTransform backup = g2d.getTransform();
 		
-		double rotation = Math.toRadians(90);
+		double rotation = Math.toRadians(0);
 		double locationX = pos.x * Board.TITLE_SIZE + (Board.TITLE_SIZE /2);
 		double locationY = pos.y * Board.TITLE_SIZE + (Board.TITLE_SIZE /2);
 		
-		AffineTransform tx = AffineTransform.getRotateInstance(rotation, locationX, locationY);
-		g2d.setTransform(tx);
+		g2d.rotate(rotation, locationX, locationY);
+		
 		g2d.drawImage(image, pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, Board.TITLE_SIZE, Board.TITLE_SIZE, observer);
 		
 		g2d.setTransform(backup);
+		
 	}
 	
 	public void keyPressed(KeyEvent e) {
 		
 		int key = e.getKeyCode();
 		
-		if (key == KeyEvent.VK_UP) {
+		if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
 			pos.translate(0, -1);
 		}
-		if (key == KeyEvent.VK_RIGHT) {
+		if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
 			pos.translate(1, 0);
 		}
-		if (key == KeyEvent.VK_DOWN) {
+		if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
 			pos.translate(0, 1);
 		}
-		if (key == KeyEvent.VK_LEFT) {
+		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
 			pos.translate(-1, 0);
 		}
 		if (key == KeyEvent.VK_ESCAPE) {
