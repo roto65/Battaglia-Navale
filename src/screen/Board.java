@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-//import java.util.Timer;
 
 import javax.swing.JPanel;
 
@@ -19,15 +18,11 @@ import core.Nave;
 public class Board extends JPanel implements ActionListener, KeyListener{
 	
 	private static final long serialVersionUID = 490905409104883233L;
-	
-	//private final int DELAY = 25; //useless?
-	
+		
 	public static final int TITLE_SIZE = 50;
 	public static final int ROWS = 10;
 	public static final int COLUMNS = 10;
-	
-	// private Timer timer; //useless?
-	
+		
 	private Player player;
 	private Nave nave;
 	
@@ -45,8 +40,6 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		navi = new ArrayList <Nave> ();
 		navi.add(nave);
 		
-		//timer = new Timer(DELAY, this); //useless?
-		//timer.start(); //useless?
 	}
 	
 	@Override

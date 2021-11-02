@@ -17,11 +17,11 @@ import screen.Board;
 public class Nave {
 	
 	private ArrayList <BufferedImage> sprites;
-	//private BufferedImage image;
 	
 	private Point pos;
 	private int length;
-	private int facing; 
+	private int facing;
+	
 	/* 
 	0 = punta in alto e culo verso il basso, 
 	1 = punta a dx e culo verso sx;
@@ -29,15 +29,17 @@ public class Nave {
 	3 = punta a sx e culo verso dx
 	*/
 	public Nave(int x, int y, int length, int facing) {
+		
 		this.length = length;
 		this.facing = facing;
+		this.pos = new Point(x, y);
+		
 		sprites = new ArrayList <BufferedImage> ();
 		sprites = loadSprites();
-		pos = new Point(x, y);
+		
 	}
 
 	private ArrayList <BufferedImage> loadSprites() {
-		//ArrayList <BufferedImage> sprites = new ArrayList <BufferedImage> ();
 		
 		try {
 			if (length == 1) {
@@ -64,8 +66,11 @@ public class Nave {
 		AffineTransform backup = g2d.getTransform();
 		
 		if (length == 1) {
+			
 			g.drawImage(sprites.get(0), pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, Board.TITLE_SIZE, Board.TITLE_SIZE,observer);
+			
 		} else {
+			
 			double rotation = findRotation();
 			double locationX, locationY;
 			int [] position = {0,0};
@@ -77,13 +82,17 @@ public class Nave {
 				locationY = (pos.y + position[1]) * Board.TITLE_SIZE + (Board.TITLE_SIZE / 2);
 				g2d.rotate(rotation, locationX, locationY);
 				
-				if(i != length - 1) {					
+				if(i != length - 1) {			
+					
 					g2d.drawImage(sprites.get(i), (pos.x + position[0]) * Board.TITLE_SIZE,
 							(pos.y + position[1]) * Board.TITLE_SIZE, Board.TITLE_SIZE, 
 							Board.TITLE_SIZE,observer);
+					
 				} else {
+					
 					rotation += Math.PI;
 					g2d.rotate(rotation, locationX, locationY);
+					
 					g2d.drawImage(sprites.get(i), (pos.x + position[0]) * Board.TITLE_SIZE,
 							(pos.y + position[1]) * Board.TITLE_SIZE, Board.TITLE_SIZE, 
 							Board.TITLE_SIZE,observer);
