@@ -3,6 +3,7 @@ package screen;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +27,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	private Player player;
 	private Nave nave;
 	
-	private ArrayList <Nave> navi;
+	private static ArrayList <Nave> navi;
 	
 	public Board () {
 		
@@ -35,7 +36,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		
 		player = new Player();
 		
-		nave = new Nave(5,5,3,0);
+		nave = new Nave(5,5,3,3);
 		
 		navi = new ArrayList <Nave> ();
 		navi.add(nave);
@@ -90,6 +91,38 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 			for (int column = 0; column < COLUMNS; column++) {
 				if ((row + column) % 2 == 1) {
 					g.fillRect(column * TITLE_SIZE, row * TITLE_SIZE, TITLE_SIZE, TITLE_SIZE);
+				}
+			}
+		}
+	}
+	
+	public static void shot (Point pos) {
+		
+		for (Nave nave : navi) {
+			for (int i = 0; i < nave.getLength(); i++) {
+				
+				switch (nave.getFacing()) {
+				
+				case 0:
+					if (pos.x == nave.getPos().x && pos.y == nave.getPos().y + i) {
+						nave.setHit(i);
+					}
+					break;
+				case 1:
+					if (pos.x == nave.getPos().x - i && pos.y == nave.getPos().y) {
+						nave.setHit(i);
+					}
+					break;
+				case 2:
+					if (pos.x == nave.getPos().x && pos.y == nave.getPos().y - i) {
+						nave.setHit(i);
+					}
+					break;
+				case 3:
+					if (pos.x == nave.getPos().x + i && pos.y == nave.getPos().y) {
+						nave.setHit(i);
+					}
+					break;
 				}
 			}
 		}

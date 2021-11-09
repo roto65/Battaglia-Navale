@@ -18,9 +18,13 @@ public class Nave {
 	
 	private ArrayList <BufferedImage> sprites;
 	
+	private boolean [] hit;
+	
 	private Point pos;
+	
 	private int length;
 	private int facing;
+	private boolean affondata;
 	
 	/* 
 	0 = punta in alto e culo verso il basso, 
@@ -32,10 +36,17 @@ public class Nave {
 		
 		this.length = length;
 		this.facing = facing;
-		this.pos = new Point(x, y);
+		this.pos = new Point(x - 1, y - 1);
 		
 		sprites = new ArrayList <BufferedImage> ();
 		sprites = loadSprites();
+		
+		hit = new boolean [length];
+		for (int i = 0; i < length; i++) {
+			hit[i] = false;
+		}
+		
+		affondata = false;
 		
 	}
 
@@ -43,13 +54,21 @@ public class Nave {
 		
 		try {
 			if (length == 1) {
-				sprites.add(ImageIO.read(new File("drawable/naveta.png")));
+				sprites.add(ImageIO.read(new File("drawable/navetta.png")));
+				sprites.add(ImageIO.read(new File("drawable/navetta2.png")));
 			} else {
 				for (int i = 0; i < length; i++) {
 					if(i == 0 || i == length - 1) {
 						sprites.add(ImageIO.read(new File("drawable/sedere.png")));
 					} else {
 						sprites.add(ImageIO.read(new File("drawable/dritto.png")));
+					}
+				}
+				for (int i = 0; i < length; i++) {
+					if(i == 0 || i == length - 1) {
+						sprites.add(ImageIO.read(new File("drawable/sedere2.png")));
+					} else {
+						sprites.add(ImageIO.read(new File("drawable/dritto2.png")));
 					}
 				}
 			}
@@ -65,6 +84,8 @@ public class Nave {
 		
 		AffineTransform backup = g2d.getTransform();
 		
+		int j = 0;
+		
 		if (length == 1) {
 			
 			g.drawImage(sprites.get(0), pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, Board.TITLE_SIZE, Board.TITLE_SIZE,observer);
@@ -77,14 +98,22 @@ public class Nave {
 			
 			for (int i = 0; i < length; i++) {
 				
+				g2d.setTransform(backup);
+				
 				position = findPosition(i);
 				locationX = (pos.x + position[0]) * Board.TITLE_SIZE + (Board.TITLE_SIZE / 2);
 				locationY = (pos.y + position[1]) * Board.TITLE_SIZE + (Board.TITLE_SIZE / 2);
-				g2d.rotate(rotation, locationX, locationY);
 				
-				if(i != length - 1) {			
+				if (hit[i]) {
+					j = i + length;
+				} else {
+					j = i;
+				}
+				
+				if(i != length - 1) {
 					
-					g2d.drawImage(sprites.get(i), (pos.x + position[0]) * Board.TITLE_SIZE,
+					g2d.rotate(rotation, locationX, locationY);
+					g2d.drawImage(sprites.get(j), (pos.x + position[0]) * Board.TITLE_SIZE,
 							(pos.y + position[1]) * Board.TITLE_SIZE, Board.TITLE_SIZE, 
 							Board.TITLE_SIZE,observer);
 					
@@ -93,7 +122,7 @@ public class Nave {
 					rotation += Math.PI;
 					g2d.rotate(rotation, locationX, locationY);
 					
-					g2d.drawImage(sprites.get(i), (pos.x + position[0]) * Board.TITLE_SIZE,
+					g2d.drawImage(sprites.get(j), (pos.x + position[0]) * Board.TITLE_SIZE,
 							(pos.y + position[1]) * Board.TITLE_SIZE, Board.TITLE_SIZE, 
 							Board.TITLE_SIZE,observer);
 				}
@@ -145,6 +174,20 @@ public class Nave {
 		
 	}
 	
+	public void setHit(int blockNumber) {
+		hit [blockNumber] = true;
+				
+		boolean naveCompleta = true;
+		
+		for (int i = 0; i < length; i++) {
+			if(!hit[i]) {
+				naveCompleta = false;
+			}
+		}
+		affondata = naveCompleta;
+		
+	}
+	
 	public Point getPos() {
 		return pos;
 	}
@@ -156,5 +199,8 @@ public class Nave {
 	public int getFacing() {
 		return facing;
 	}
-	
+
+	public boolean isAffondata() {
+		return affondata;
+	}
 }

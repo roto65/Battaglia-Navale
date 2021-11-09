@@ -74,6 +74,9 @@ public class Player {
 		if (key == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
 		}
+		if (key == KeyEvent.VK_SPACE) {
+			Board.shot(pos);
+		}
 		
 	}
 	
