@@ -191,6 +191,8 @@ public class Nave {
 			Splutch.surroundNave(this);
 		}
 		
+		affondata = naveCompleta;
+		
 	}
 	
 	public Point getPos() {

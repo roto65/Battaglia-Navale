@@ -37,6 +37,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		
 		player = new Player();
 		
+		nave = new Nave(5,5,3,3);
+		
 		navi = new ArrayList <Nave> ();
 		splutch = new ArrayList <Splutch> ();
 		
@@ -148,4 +150,5 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		return splutch;
 	}
 	
+	}
 }
