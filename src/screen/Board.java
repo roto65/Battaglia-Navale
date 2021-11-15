@@ -3,6 +3,7 @@ package screen;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import core.Player;
+import core.Splutch;
 import core.Nave;
 
 public class Board extends JPanel implements ActionListener, KeyListener{
@@ -24,9 +26,9 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	public static final int COLUMNS = 10;
 		
 	private Player player;
-	private Nave nave;
 	
-	private ArrayList <Nave> navi;
+	private static ArrayList <Nave> navi;
+	private static ArrayList <Splutch> splutch;
 	
 	public Board () {
 		
@@ -35,10 +37,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		
 		player = new Player();
 		
-		nave = new Nave(5,5,3,0);
-		
 		navi = new ArrayList <Nave> ();
-		navi.add(nave);
+		splutch = new ArrayList <Splutch> ();
+		
+		navi.add( new Nave(2,5,3,0));
 		
 	}
 	
@@ -76,6 +78,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 			
 		}
 		
+		for (Splutch splutch : splutch) {			
+			splutch.draw(g, this);
+		}
+		
 		player.draw(g, this);
 		
 
@@ -94,4 +100,52 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 			}
 		}
 	}
+	
+	public static void shot (Point pos) {
+				
+		boolean naveColpita = false;
+		
+		for (Nave nave : navi) {
+			for (int i = 0; i < nave.getLength(); i++) {
+				
+				switch (nave.getFacing()) {
+				
+				case 0:
+					if (pos.x == nave.getPos().x && pos.y == nave.getPos().y + i) {
+						nave.setHit(i);
+						naveColpita = true;
+					}
+					break;
+				case 1:
+					if (pos.x == nave.getPos().x - i && pos.y == nave.getPos().y) {
+						nave.setHit(i);
+						naveColpita = true;
+					}
+					break;
+				case 2:
+					if (pos.x == nave.getPos().x && pos.y == nave.getPos().y - i) {
+						nave.setHit(i);
+						naveColpita = true;
+					}
+					break;
+				case 3:
+					if (pos.x == nave.getPos().x + i && pos.y == nave.getPos().y) {
+						nave.setHit(i);
+						naveColpita = true;
+					}
+					break;
+				}
+			}
+		}
+		
+		if (!naveColpita) {
+			
+			Splutch.addSplutch(pos);
+		}
+	}
+
+	public static ArrayList<Splutch> getSplutch() {
+		return splutch;
+	}
+	
 }
