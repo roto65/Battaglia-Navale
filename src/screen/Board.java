@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.beans.BeanProperty;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -16,8 +17,9 @@ import javax.swing.JPanel;
 import core.Player;
 import core.Splutch;
 import core.Nave;
+import org.intellij.lang.annotations.MagicConstant;
 
-public class Board extends JPanel implements ActionListener, KeyListener{
+public class Board extends JPanel implements ActionListener, KeyListener, BoardConstants{
 	
 	private static final long serialVersionUID = 490905409104883233L;
 		
@@ -26,24 +28,28 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	public static final int COLUMNS = 10;
 		
 	private Player player;
-	
+
+	private int type;
+
 	private static ArrayList <Nave> navi;
 	private static ArrayList <Splutch> splutch;
-	
-	public Board () {
+
+	public Board (int type) { //update
+
+		this.type = type;
 		
 		setPreferredSize(new Dimension(COLUMNS * TITLE_SIZE, ROWS * TITLE_SIZE));
 		setBackground(new Color(46, 91, 255));
 		
-		player = new Player();
-		
-		nave = new Nave(5,5,3,3);
+		if (type == BoardConstants.PLAYER_BOARD) {
+			player = new Player();
+		}
 		
 		navi = new ArrayList <Nave> ();
 		splutch = new ArrayList <Splutch> ();
 		
-		navi.add( new Nave(2,5,3,0));
-		
+		navi.add( new Nave(5,5,4,3));
+
 	}
 	
 	@Override
@@ -52,9 +58,12 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		player.keyPressed(e);
-		
-		player.tick();
+
+		if (type == BoardConstants.PLAYER_BOARD) {
+			player.keyPressed(e);
+
+			player.tick();
+		}
 		
 		repaint();
 	}
@@ -70,22 +79,27 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	}
 	
 	@Override
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) { //update
 		super.paintComponent(g);
 		
 		drawBackground(g);
 	
 		for (Nave nave : navi) {
-			nave.draw(g,this);
-			
+
+			if(nave.isAffondata() || type == BoardConstants.MAP_BOARD) {
+				nave.draw(g, this);
+			} else {
+				nave.drawX(g, this);
+			}
 		}
 		
 		for (Splutch splutch : splutch) {			
 			splutch.draw(g, this);
 		}
-		
-		player.draw(g, this);
-		
+
+		if(type == BoardConstants.PLAYER_BOARD) {
+			player.draw(g, this);
+		}
 
 		Toolkit.getDefaultToolkit().sync();
 	}
@@ -149,6 +163,5 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	public static ArrayList<Splutch> getSplutch() {
 		return splutch;
 	}
-	
-	}
+
 }

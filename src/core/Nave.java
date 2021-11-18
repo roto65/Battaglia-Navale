@@ -17,6 +17,8 @@ import screen.Board;
 public class Nave {
 	
 	private ArrayList <BufferedImage> sprites;
+
+	private BufferedImage spriteX = null;
 	
 	private boolean [] hit;
 	
@@ -32,6 +34,7 @@ public class Nave {
 	2 = punta in basso e culo verso l'alto
 	3 = punta a sx e culo verso dx
 	*/
+
 	public Nave(int x, int y, int length, int facing) {
 		
 		this.length = length;
@@ -45,18 +48,21 @@ public class Nave {
 		for (int i = 0; i < length; i++) {
 			hit[i] = false;
 		}
-		
+
 		affondata = false;
-		
+
 	}
 
 	private ArrayList <BufferedImage> loadSprites() {
 		
 		try {
 			if (length == 1) {
+
 				sprites.add(ImageIO.read(new File("drawable/navetta.png")));
 				sprites.add(ImageIO.read(new File("drawable/navetta2.png")));
+
 			} else {
+
 				for (int i = 0; i < length; i++) {
 					if(i == 0 || i == length - 1) {
 						sprites.add(ImageIO.read(new File("drawable/sedere.png")));
@@ -64,6 +70,7 @@ public class Nave {
 						sprites.add(ImageIO.read(new File("drawable/dritto.png")));
 					}
 				}
+
 				for (int i = 0; i < length; i++) {
 					if(i == 0 || i == length - 1) {
 						sprites.add(ImageIO.read(new File("drawable/sedere2.png")));
@@ -72,12 +79,22 @@ public class Nave {
 					}
 				}
 			}
+
 		} catch (IOException e) {
 			System.out.print("Error opening image file: " + e.getMessage());
 		}
 		return sprites;
 	}
-	
+
+	private void loadX() {
+
+		try {
+			spriteX = ImageIO.read(new File("drawable/x.png"));
+		} catch (IOException e) {
+			System.out.print("Error opening image file: " + e.getMessage());
+		}
+	}
+
 	public void draw(Graphics g, ImageObserver observer) {
 		
 		Graphics2D g2d = (Graphics2D) g;
@@ -87,9 +104,13 @@ public class Nave {
 		int j = 0;
 		
 		if (length == 1) {
-			
-			g.drawImage(sprites.get(0), pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, Board.TITLE_SIZE, Board.TITLE_SIZE,observer);
-			
+
+			if (hit[0]) {
+				g.drawImage(sprites.get(1), pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, Board.TITLE_SIZE, Board.TITLE_SIZE, observer);
+			} else {
+				g.drawImage(sprites.get(0), pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, Board.TITLE_SIZE, Board.TITLE_SIZE, observer);
+			}
+
 		} else {
 			
 			double rotation = findRotation();
@@ -131,7 +152,27 @@ public class Nave {
 		
 		g2d.setTransform(backup);
 	}
-	
+
+	public void drawX(Graphics g, ImageObserver observer) {
+
+		if (spriteX == null) {
+			loadX();
+		}
+
+		int [] position = {0,0};
+
+		for (int i = 0; i < length; i++){
+
+			position = findPosition(i);
+
+			if(hit[i]){
+				g.drawImage(spriteX, (pos.x + position[0]) * Board.TITLE_SIZE,
+						(pos.y + position[1]) * Board.TITLE_SIZE, Board.TITLE_SIZE,
+						Board.TITLE_SIZE, observer );
+			}
+		}
+	}
+
 	private double findRotation() {
 		double rotation = 0;
 		switch (facing) {

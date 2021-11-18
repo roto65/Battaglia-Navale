@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.jetbrains.annotations.NotNull;
 import screen.Board;
 
 public class Splutch {
@@ -58,19 +59,8 @@ public class Splutch {
 	}
 	
 	public static void addSplutch(int x, int y) {
-		
-		Point pos = new Point (x, y);
-		
-		boolean nuovoSplutch = true;
-		
-		for (Splutch splutch : Board.getSplutch()) {
-			if (splutch.getPos().equals(pos))
-				nuovoSplutch = false;
-		}
-		
-		if(nuovoSplutch) {
-			Board.getSplutch().add(new Splutch(pos.x, pos.y));
-		}
+
+		addSplutch(new Point (x, y));
 	}
 	
 	public static void surroundNave(Nave nave) {
@@ -91,13 +81,39 @@ public class Splutch {
 			
 			break;
 		case 1:
-			
+			for (int i = -1; i < 2; i++) {
+				addSplutch(posNave.x + 1, posNave.y + i);
+				addSplutch(posNave.x - nave.getLength(), posNave.y + i);
+			}
+
+			for (int i = 0; i < nave.getLength(); i++) {
+				addSplutch(posNave.x - i, posNave.y - 1);
+				addSplutch(posNave.x - i, posNave.y + 1);
+			}
 			break;
 		case 2:
-			
+			for (int i = -1; i < 2; i++) {
+				addSplutch(posNave.x + i, posNave.y + 1);
+				addSplutch(posNave.x + i, posNave.y - nave.getLength());
+			}
+
+			for (int i = 0; i < nave.getLength(); i++) {
+				addSplutch(posNave.x - 1, posNave.y - i);
+				addSplutch(posNave.x + 1, posNave.y - i);
+			}
+
 			break;
 		case 3:
-			
+			for (int i = -1; i < 2; i++) {
+				addSplutch(posNave.x - 1, posNave.y + i);
+				addSplutch(posNave.x + nave.getLength(), posNave.y + i);
+			}
+
+			for (int i = 0; i < nave.getLength(); i++){
+				addSplutch(posNave.x + i, posNave.y - 1);
+				addSplutch(posNave.x + i, posNave.y + 1);
+			}
+
 			break;
 		}
 		

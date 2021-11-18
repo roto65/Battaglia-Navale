@@ -29,7 +29,7 @@ public class Player {
 
 	private void loadImage() {
 		try {
-			image = ImageIO.read(new File("drawable/pg.png"));
+			image = ImageIO.read(new File("drawable/mirino.png"));
 		} catch (IOException e) {
 			System.out.print("Error opening image file: " + e.getMessage());
 		}
