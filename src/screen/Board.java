@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.beans.BeanProperty;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -17,7 +16,6 @@ import javax.swing.JPanel;
 import core.Player;
 import core.Splutch;
 import core.Nave;
-import org.intellij.lang.annotations.MagicConstant;
 
 public class Board extends JPanel implements ActionListener, KeyListener, BoardConstants{
 	

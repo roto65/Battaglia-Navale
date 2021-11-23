@@ -9,7 +9,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.jetbrains.annotations.NotNull;
 import screen.Board;
 
 public class Splutch {
