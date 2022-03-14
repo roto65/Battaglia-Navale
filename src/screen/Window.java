@@ -1,5 +1,9 @@
 package screen;
 
+import board.InventoryBoard;
+import board.MapBoard;
+import board.PlayerBoard;
+
 import javax.swing.JFrame;
 import java.awt.*;
 
@@ -9,24 +13,30 @@ public class Window {
 		
 		JFrame window = new JFrame("Battaglia Navale");
 
-		window.setLayout(new BorderLayout());
-		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		Board playerBoard = new Board(BoardConstants.PLAYER_BOARD);
-		Board mapBoard = new Board(BoardConstants.MAP_BOARD);
 
-		window.add(playerBoard, BorderLayout.LINE_START);
+		window.setLayout(new BorderLayout());
+
+		PlayerBoard playerBoard = new PlayerBoard();
+		MapBoard mapBoard = new MapBoard();
+		InventoryBoard inventoryBoard = new InventoryBoard();
+
+		window.add(inventoryBoard, BorderLayout.LINE_START);
+		window.add(playerBoard, BorderLayout.CENTER);
 		window.add(mapBoard, BorderLayout.LINE_END);
 
+		window.addMouseListener(playerBoard);
 
-		
+		window.addMouseListener(mapBoard);
+
 		window.addKeyListener(playerBoard);
+
 		window.addKeyListener(mapBoard);
 
 		window.setResizable(false);
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
+
 	}
 }

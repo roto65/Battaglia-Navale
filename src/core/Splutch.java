@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import screen.Board;
+import board.Board;
 
 public class Splutch {
 	

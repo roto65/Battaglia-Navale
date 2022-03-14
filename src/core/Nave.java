@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import screen.Board;
+import board.Board;
 
 public class Nave {
 	
@@ -50,6 +50,14 @@ public class Nave {
 		}
 
 		affondata = false;
+
+	}
+
+	public Nave(Point pos, int length, int facing) {
+
+		this.pos = pos;
+		this.length = length;
+		this.facing = facing;
 
 	}
 

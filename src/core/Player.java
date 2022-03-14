@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
@@ -12,7 +13,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import screen.Board;
+import board.Board;
 
 public class Player {
 
@@ -79,7 +80,17 @@ public class Player {
 		}
 		
 	}
-	
+
+	public void mousePressed(MouseEvent e){
+
+		int button = e.getButton();
+
+		if (button == MouseEvent.BUTTON1){
+			Board.shot(pos);
+		}
+
+	}
+
 	public void tick() {
 		
 		if (pos.x < 0) {
@@ -94,6 +105,14 @@ public class Player {
 			pos.y = Board.ROWS - 1;
 		}
 		
+	}
+
+	public void tick (Point mousePos) {
+
+		pos.x = (mousePos.x - (mousePos.x % Board.TITLE_SIZE)) / Board.TITLE_SIZE;
+		pos.y = (mousePos.y - (mousePos.y % Board.TITLE_SIZE)) / Board.TITLE_SIZE;
+
+		tick();
 	}
 
 	public Point getPos() {

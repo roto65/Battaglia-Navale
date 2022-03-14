@@ -1,14 +1,12 @@
-package screen;
+package board;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
+import java.io.Serial;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -17,39 +15,62 @@ import core.Player;
 import core.Splutch;
 import core.Nave;
 
-public class Board extends JPanel implements ActionListener, KeyListener, BoardConstants{
+public class Board extends JPanel implements ActionListener, KeyListener, MouseListener {
 	
+	@Serial
 	private static final long serialVersionUID = 490905409104883233L;
 		
 	public static final int TITLE_SIZE = 50;
+
 	public static final int ROWS = 10;
 	public static final int COLUMNS = 10;
-		
-	private Player player;
 
-	private int type;
+	private Graphics g;
 
-	private static ArrayList <Nave> navi;
-	private static ArrayList <Splutch> splutch;
+	protected static ArrayList <Nave> navi;
+	protected static ArrayList <Splutch> splutch;
 
-	public Board (int type) { //update
-
-		this.type = type;
+	public Board () {
 		
 		setPreferredSize(new Dimension(COLUMNS * TITLE_SIZE, ROWS * TITLE_SIZE));
 		setBackground(new Color(46, 91, 255));
-		
-		if (type == BoardConstants.PLAYER_BOARD) {
-			player = new Player();
-		}
-		
+
 		navi = new ArrayList <Nave> ();
 		splutch = new ArrayList <Splutch> ();
-		
-		navi.add( new Nave(5,5,4,3));
+
+		navi.add(new Nave(3,3,3,3));
+
+		g = getGraphics();
 
 	}
-	
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+		repaint();
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	}
@@ -57,13 +78,8 @@ public class Board extends JPanel implements ActionListener, KeyListener, BoardC
 	@Override
 	public void keyPressed(KeyEvent e) {
 
-		if (type == BoardConstants.PLAYER_BOARD) {
-			player.keyPressed(e);
-
-			player.tick();
-		}
-		
 		repaint();
+
 	}
 
 	@Override
@@ -77,34 +93,17 @@ public class Board extends JPanel implements ActionListener, KeyListener, BoardC
 	}
 	
 	@Override
-	public void paintComponent(Graphics g) { //update
+	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		drawBackground(g);
-	
-		for (Nave nave : navi) {
+		drawBackground(g, new Color(46, 140, 255));
 
-			if(nave.isAffondata() || type == BoardConstants.MAP_BOARD) {
-				nave.draw(g, this);
-			} else {
-				nave.drawX(g, this);
-			}
-		}
-		
-		for (Splutch splutch : splutch) {			
-			splutch.draw(g, this);
-		}
-
-		if(type == BoardConstants.PLAYER_BOARD) {
-			player.draw(g, this);
-		}
-
-		Toolkit.getDefaultToolkit().sync();
+		Toolkit.getDefaultToolkit().sync(); //?
 	}
 
-	private void drawBackground(Graphics g) {
+	public void drawBackground(Graphics g, Color color) {
 		
-		g.setColor(new Color(46, 140, 255));
+		g.setColor(color);
 		
 		for (int row = 0; row < ROWS; row++) {
 			for (int column = 0; column < COLUMNS; column++) {
@@ -162,4 +161,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, BoardC
 		return splutch;
 	}
 
+	public Graphics getG() {
+		return g;
+	}
 }
