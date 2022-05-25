@@ -4,39 +4,124 @@ import board.InventoryBoard;
 import board.MapBoard;
 import board.PlayerBoard;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
 
 public class Window {
 
-	public static void initWindow () {
-		
-		JFrame window = new JFrame("Battaglia Navale");
+    private static JFrame window;
 
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private static PlayerBoard playerBoard;
+    private static MapBoard mapBoard;
+    private static InventoryBoard inventoryBoard;
 
-		window.setLayout(new BorderLayout());
+    public static void initMainWindow() { // TODO: 16/03/2022 player board + map board
 
-		PlayerBoard playerBoard = new PlayerBoard();
-		MapBoard mapBoard = new MapBoard();
-		InventoryBoard inventoryBoard = new InventoryBoard();
+        window = new JFrame("Battaglia Navale");
 
-		window.add(inventoryBoard, BorderLayout.LINE_START);
-		window.add(playerBoard, BorderLayout.CENTER);
-		window.add(mapBoard, BorderLayout.LINE_END);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		window.addMouseListener(playerBoard);
+        window.setLayout(new GridBagLayout());
 
-		window.addMouseListener(mapBoard);
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weighty = 0.5;
 
-		window.addKeyListener(playerBoard);
+        //playerBoard = new PlayerBoard();
+        mapBoard = new MapBoard();
+        inventoryBoard = new InventoryBoard();
 
-		window.addKeyListener(mapBoard);
+        Line line = new Line(10, Color.WHITE);
 
-		window.setResizable(false);
-		window.pack();
-		window.setLocationRelativeTo(null);
-		window.setVisible(true);
 
-	}
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        window.add(inventoryBoard, gridBagConstraints);
+
+        //window.add(playerBoard, BorderLayout.CENTER);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        window.add(line, gridBagConstraints);
+
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        window.add(mapBoard, gridBagConstraints);
+
+        //window.addMouseListener(playerBoard);
+        //window.addMouseListener(mapBoard);
+
+        //window.addKeyListener(playerBoard);
+        //window.addKeyListener(mapBoard);
+        toggleKeyListener("add", "inventoryBoard");
+
+        inventoryBoard.addListener(mapBoard);
+        mapBoard.addListener(inventoryBoard);
+
+
+        window.setResizable(false);
+        window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+
+    }
+
+    public static void toggleKeyListener(String action, String target) {
+        if (action.equals("add")) {
+            switch (target) {
+                case "playerBoard" -> window.addKeyListener(playerBoard);
+                case "mapBoard" -> window.addKeyListener(mapBoard);
+                case "inventoryBoard" -> window.addKeyListener(inventoryBoard);
+            }
+        } else if (action.equals("remove")) {
+            switch (target) {
+                case "playerBoard" -> window.removeKeyListener(playerBoard);
+                case "mapBoard" -> window.removeKeyListener(mapBoard);
+                case "inventoryBoard" -> window.removeKeyListener(inventoryBoard);
+            }
+        }
+    }
+
+    public static void initSelectionWindow() {
+        // TODO: 16/03/2022 inventory board + map board + cursore di qualche tipo
+        // TODO: 16/03/2022 aggiungere bottoni di conferma e di reset
+
+        JFrame window = new JFrame("Pedinamento");
+
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        window.setLayout(new GridBagLayout());
+
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weighty = 0.5;
+
+        Button confirmButton = new Button("Confirm");
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initMainWindow();
+
+                window.dispose();
+            }
+        });
+
+        Button cancelButton = new Button("Cancel");
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        window.add(confirmButton, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        window.add(cancelButton, gridBagConstraints);
+
+        window.setResizable(true);
+        window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+    }
 }

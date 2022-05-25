@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class PlayerBoard extends Board{
+public class PlayerBoard extends Board {
 
     private Player player;
 
@@ -35,28 +35,26 @@ public class PlayerBoard extends Board{
 
     @Override
     public void keyPressed(KeyEvent e) {
+        super.keyPressed(e);
 
         player.keyPressed(e);
-
         player.tick();
-
-        super.keyPressed(e);
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (Nave nave : navi){
+        for (Nave nave : navi) {
 
-            if(nave.isAffondata()){
+            if (nave.isAffondata()) {
                 nave.draw(g, this);
             } else {
                 nave.drawX(g, this);
             }
         }
 
-        for (Splutch splutch : splutch){
+        for (Splutch splutch : splutch) {
             splutch.draw(g, this);
         }
 

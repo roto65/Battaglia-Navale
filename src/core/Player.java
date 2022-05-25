@@ -45,8 +45,8 @@ public class Player {
 		AffineTransform backup = g2d.getTransform();
 		
 		double rotation = Math.toRadians(0);
-		double locationX = pos.x * Board.TITLE_SIZE + (Board.TITLE_SIZE /2);
-		double locationY = pos.y * Board.TITLE_SIZE + (Board.TITLE_SIZE /2);
+		double locationX = pos.x * Board.TITLE_SIZE + (Board.TITLE_SIZE / 2);
+		double locationY = pos.y * Board.TITLE_SIZE + (Board.TITLE_SIZE / 2);
 		
 		g2d.rotate(rotation, locationX, locationY);
 		
