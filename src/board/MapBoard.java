@@ -18,6 +18,8 @@ public class MapBoard extends Board implements shipPlacerListener {
 
     private static final Random r = new Random();
 
+    private boolean fase2ready = false;
+
     public MapBoard() {
         super();
 
@@ -54,7 +56,20 @@ public class MapBoard extends Board implements shipPlacerListener {
         paintComponent(getGraphics());
     }
 
-    private void finalizePlacement() {
+    @Override
+    public void placeAllShips(ArrayList<Nave> navi) {
+        for(Nave nave : navi) {
+            placeShip(nave.getLength());
+
+            nave.setVisible(false);
+
+            finalizePlacement(false);
+        }
+
+        fase2ready = true;
+    }
+
+    private void finalizePlacement(boolean switchListeners) {
 
         if (tempNave.isPlaceable(navi)) {
             navi.add(tempNave);
@@ -64,11 +79,20 @@ public class MapBoard extends Board implements shipPlacerListener {
 
         tempNave = null;
 
-        Window.toggleKeyListener("remove", "mapBoard");
-        Window.toggleKeyListener("add", "inventoryBoard");
+        if(navi.size() == Board.NUM_NAVI) {
+            fase2ready = true;
+            return;
+        }
 
-        for (shipSelectorListener listener : listeners) {
-            listener.selectShip(true);
+        if (switchListeners) {
+
+            Window.toggleKeyListener("remove", "mapBoard");
+
+            Window.toggleKeyListener("add", "inventoryBoard");
+
+            for (shipSelectorListener listener : listeners) {
+                listener.selectShip(true);
+            }
         }
     }
 
@@ -107,15 +131,18 @@ public class MapBoard extends Board implements shipPlacerListener {
             tempNave.translate(-1, 0);
         }
         if (key == KeyEvent.VK_SPACE && tempNave != null) {
-            finalizePlacement();
+            finalizePlacement(true);
         }
         if (key == KeyEvent.VK_R && tempNave != null) {
             do {
                 tempNave.cycleFacing();
             } while (!tempNave.inField());
         }
-        if(key == KeyEvent.VK_BACK_SPACE) {
+        if (key == KeyEvent.VK_BACK_SPACE) {
             abortPlacement();
+        }
+        if (key == KeyEvent.VK_ENTER && fase2ready) {
+            Window.fase2();
         }
         if (key == KeyEvent.VK_ESCAPE) {
             System.exit(0);

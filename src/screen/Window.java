@@ -1,5 +1,6 @@
 package screen;
 
+import board.Board;
 import board.InventoryBoard;
 import board.MapBoard;
 import board.PlayerBoard;
@@ -17,8 +18,9 @@ public class Window {
     private static PlayerBoard playerBoard;
     private static MapBoard mapBoard;
     private static InventoryBoard inventoryBoard;
+    private static GridBagConstraints gridBagConstraints;
 
-    public static void initMainWindow() { // TODO: 16/03/2022 player board + map board
+    public static void initMainWindow() {
 
         window = new JFrame("Battaglia Navale");
 
@@ -26,7 +28,7 @@ public class Window {
 
         window.setLayout(new GridBagLayout());
 
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.weighty = 0.5;
 
@@ -34,38 +36,46 @@ public class Window {
         mapBoard = new MapBoard();
         inventoryBoard = new InventoryBoard();
 
-        Line line = new Line(10, Color.WHITE);
-
-
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        window.add(inventoryBoard, gridBagConstraints);
-
-        //window.add(playerBoard, BorderLayout.CENTER);
-
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        window.add(line, gridBagConstraints);
-
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        window.add(mapBoard, gridBagConstraints);
-
-        //window.addMouseListener(playerBoard);
-        //window.addMouseListener(mapBoard);
-
-        //window.addKeyListener(playerBoard);
-        //window.addKeyListener(mapBoard);
-        toggleKeyListener("add", "inventoryBoard");
-
-        inventoryBoard.addListener(mapBoard);
-        mapBoard.addListener(inventoryBoard);
-
+        fase1();
 
         window.setResizable(false);
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+    }
+
+    //Primo stato della partita: posizionamento delle navi sul campo di gioco
+    public static void fase1() {
+        Line line = new Line(10, Color.WHITE);
+
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = Board.ROWS;
+        window.add(inventoryBoard, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = Board.ROWS;
+        window.add(line, gridBagConstraints);
+
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = Board.ROWS;
+        window.add(mapBoard, gridBagConstraints);
+
+        toggleKeyListener("add", "inventoryBoard");
+
+        inventoryBoard.addListener(mapBoard);
+        mapBoard.addListener(inventoryBoard);
+    }
+
+    //Secondo stato della partita: battaglia navale
+    public static void fase2() {
+
+        //Devo sostituire la board di sx
+        //Devo mettere a posto i listener
+        toggleKeyListener("remove", "mapBoard");
 
     }
 
@@ -85,6 +95,22 @@ public class Window {
         }
     }
 
+    public static void toggleMouseListener(String action, String target) {
+        if (action.equals("add")) {
+            switch (target) {
+                case "playerBoard" -> window.addMouseListener(playerBoard); //unica board che implementa il controllo tramite mouse
+                case "mapBoard" -> window.addMouseListener(mapBoard);
+                case "inventoryBoard" -> window.addMouseListener(inventoryBoard);
+            }
+        } else if (action.equals("remove")) {
+            switch (target) {
+                case "playerBoard" -> window.removeMouseListener(playerBoard); //unica board che implementa il controllo tramite mouse
+                case "mapBoard" -> window.removeMouseListener(mapBoard);
+                case "inventoryBoard" -> window.removeMouseListener(inventoryBoard);
+            }
+        }
+    }
+
     public static void initSelectionWindow() {
         // TODO: 16/03/2022 inventory board + map board + cursore di qualche tipo
         // TODO: 16/03/2022 aggiungere bottoni di conferma e di reset
@@ -100,13 +126,10 @@ public class Window {
         gridBagConstraints.weighty = 0.5;
 
         Button confirmButton = new Button("Confirm");
-        confirmButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                initMainWindow();
+        confirmButton.addActionListener(actionEvent -> {
+            initMainWindow();
 
-                window.dispose();
-            }
+            window.dispose();
         });
 
         Button cancelButton = new Button("Cancel");

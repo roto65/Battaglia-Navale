@@ -62,7 +62,12 @@ public class InventoryBoard extends Board implements shipSelectorListener{
     public void keyPressed(KeyEvent e) {
         super.keyPressed(e);
 
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        int key = e.getKeyCode();
+
+        if(key == KeyEvent.VK_R) {
+            placeAllShips();
+        }
+        if(key == KeyEvent.VK_SPACE) {
 
             ArrayList<Nave> copiaNavi = (ArrayList<Nave>) inventarioNavi.clone();
 
@@ -80,7 +85,7 @@ public class InventoryBoard extends Board implements shipSelectorListener{
                 }
             }
         } else {
-            shipHighlighter.keyPressed(e);
+            shipHighlighter.keyPressed(key);
             shipHighlighter.tick();
         }
     }
@@ -124,6 +129,17 @@ public class InventoryBoard extends Board implements shipSelectorListener{
 
         for (shipPlacerListener listener : listeners) {
             listener.placeShip(length);
+        }
+    }
+
+    private void placeAllShips() {
+        Window.toggleKeyListener("remove", "inventoryBoard");
+        Window.toggleKeyListener("add", "mapBoard");
+
+        shipHighlighter.setVisible(false);
+
+        for (shipPlacerListener listener : listeners) {
+            listener.placeAllShips(inventarioNavi);
         }
     }
 

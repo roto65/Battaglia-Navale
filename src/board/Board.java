@@ -23,6 +23,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
 
     public static final int ROWS = 10;
     public static final int COLUMNS = 10;
+    public static final int NUM_NAVI = 10;
     protected static ArrayList<Nave> navi;
     protected static ArrayList<Splutch> splutch;
 

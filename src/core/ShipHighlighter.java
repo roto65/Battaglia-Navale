@@ -16,7 +16,7 @@ public class ShipHighlighter {
 
     private BufferedImage corner;
 
-    private final Point pos;
+    private Point pos;
 
     private final ArrayList<Nave> navi;
 
@@ -157,11 +157,9 @@ public class ShipHighlighter {
         return false;
     }
 
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(int key) {
 
         onShip = isOnShip();
-
-        int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
             pos.translate(0, -1);
@@ -179,7 +177,7 @@ public class ShipHighlighter {
             System.exit(0);
         }
         if (isOnShip() && onShip) {
-            keyPressed(e);
+            keyPressed(key);
         }
 
     }
@@ -202,6 +200,10 @@ public class ShipHighlighter {
 
     public Point getPos() {
         return pos;
+    }
+
+    public void setPos(Point pos) {
+        this.pos = pos;
     }
 
     public ArrayList<Nave> getNavi() {
