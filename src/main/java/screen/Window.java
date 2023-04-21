@@ -7,9 +7,7 @@ import board.PlayerBoard;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Map;
+
 
 public class Window {
 
@@ -32,7 +30,7 @@ public class Window {
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.weighty = 0.5;
 
-        //playerBoard = new PlayerBoard();
+        playerBoard = new PlayerBoard();
         mapBoard = new MapBoard();
         inventoryBoard = new InventoryBoard();
 
@@ -73,9 +71,19 @@ public class Window {
     //Secondo stato della partita: battaglia navale
     public static void fase2() {
 
-        //Devo sostituire la board di sx
-        //Devo mettere a posto i listener
+        window.remove(inventoryBoard);
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = Board.ROWS;
+
+        window.add(playerBoard, gridBagConstraints);
+
+        window.revalidate();
+        window.repaint();
+
         toggleKeyListener("remove", "mapBoard");
+        toggleKeyListener("add", "playerBoard");
 
     }
 
@@ -98,20 +106,20 @@ public class Window {
     public static void toggleMouseListener(String action, String target) {
         if (action.equals("add")) {
             switch (target) {
-                case "playerBoard" -> window.addMouseListener(playerBoard); //unica board che implementa il controllo tramite mouse
+                case "playerBoard" -> window.addMouseListener(playerBoard); //unica board che implementa il mouse
                 case "mapBoard" -> window.addMouseListener(mapBoard);
                 case "inventoryBoard" -> window.addMouseListener(inventoryBoard);
             }
         } else if (action.equals("remove")) {
             switch (target) {
-                case "playerBoard" -> window.removeMouseListener(playerBoard); //unica board che implementa il controllo tramite mouse
+                case "playerBoard" -> window.removeMouseListener(playerBoard); //unica board che implementa il mouse
                 case "mapBoard" -> window.removeMouseListener(mapBoard);
                 case "inventoryBoard" -> window.removeMouseListener(inventoryBoard);
             }
         }
     }
 
-    public static void initSelectionWindow() {
+   /* public static void initSelectionWindow() {
         // TODO: 16/03/2022 inventory board + map board + cursore di qualche tipo
         // TODO: 16/03/2022 aggiungere bottoni di conferma e di reset
 
@@ -146,5 +154,5 @@ public class Window {
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-    }
+    } */
 }

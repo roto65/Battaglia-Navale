@@ -15,13 +15,27 @@ public class Splutch {
 
     private BufferedImage image;
 
+    private static BufferedImage lightSplutch;
+    private static BufferedImage darkSplutch;
+
+    private static final int TITLE_SIZE = Board.TITLE_SIZE;
+
     private Point pos;
+
+    static {
+        try {
+            lightSplutch = ImageIO.read(new File("drawable/splutch.png"));
+            darkSplutch = ImageIO.read(new File("drawable/splutch2.png"));
+        } catch (IOException e) {
+            System.out.print("Error opening image file: " + e.getMessage());
+        }
+    }
 
     public Splutch(int x, int y) {
 
         pos = new Point(x, y);
 
-        loadImage();
+        //loadImage();
     }
 
     private void loadImage() {
@@ -37,10 +51,18 @@ public class Splutch {
         }
     }
 
+    /*public void draw(Graphics g, ImageObserver observer) {
+
+        g.drawImage(image, pos.x * TITLE_SIZE, pos.y * TITLE_SIZE, TITLE_SIZE, TITLE_SIZE, observer);
+
+    }*/
+
     public void draw(Graphics g, ImageObserver observer) {
-
-        g.drawImage(image, pos.x * Board.TITLE_SIZE, pos.y * Board.TITLE_SIZE, Board.TITLE_SIZE, Board.TITLE_SIZE, observer);
-
+        if((pos.x + pos.y) % 2 == 0) {
+            g.drawImage(lightSplutch, pos.x * TITLE_SIZE, pos.y * TITLE_SIZE, TITLE_SIZE, TITLE_SIZE, observer);
+        } else {
+            g.drawImage(darkSplutch, pos.x * TITLE_SIZE, pos.y * TITLE_SIZE, TITLE_SIZE, TITLE_SIZE, observer);
+        }
     }
 
     public static void addSplutch(Point pos) {

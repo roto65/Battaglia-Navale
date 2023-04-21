@@ -31,6 +31,7 @@ public class Board extends JPanel implements ActionListener, KeyListener, MouseL
 
         setPreferredSize(new Dimension(COLUMNS * TITLE_SIZE, ROWS * TITLE_SIZE));
         setBackground(new Color(46, 91, 255));
+        setDoubleBuffered(true);
 
         navi = new ArrayList<>();
         splutch = new ArrayList<>();

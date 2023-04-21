@@ -1,5 +1,6 @@
 package board;
 
+import JsonIO.ShipParser;
 import core.Nave;
 import core.ShipHighlighter;
 import screen.Window;
@@ -8,11 +9,11 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-public class InventoryBoard extends Board implements shipSelectorListener{
+public class InventoryBoard extends Board implements ShipSelectorListener {
 
-    private final ArrayList<Nave> inventarioNavi;
+    private ArrayList<Nave> inventarioNavi;
 
-    private final ArrayList<shipPlacerListener> listeners;
+    private final ArrayList<ShipPlacerListener> listeners;
 
     private final ShipHighlighter shipHighlighter;
 
@@ -28,6 +29,7 @@ public class InventoryBoard extends Board implements shipSelectorListener{
 
     private void populateNavi() {
 
+        /*
         inventarioNavi.add(new Nave(2, 2, 4, 0));
 
         inventarioNavi.add(new Nave(7, 2, 3, 0));
@@ -41,6 +43,9 @@ public class InventoryBoard extends Board implements shipSelectorListener{
         inventarioNavi.add(new Nave(9, 6, 1, 0));
         inventarioNavi.add(new Nave(7, 8, 1, 0));
         inventarioNavi.add(new Nave(9, 8, 1, 0));
+        */
+
+        inventarioNavi = ShipParser.getShips("inventory.json");
 
     }
 
@@ -116,7 +121,7 @@ public class InventoryBoard extends Board implements shipSelectorListener{
         paintComponent(getGraphics());
     }
 
-    public void addListener(shipPlacerListener listener) {
+    public void addListener(ShipPlacerListener listener) {
         listeners.add(listener);
     }
 
@@ -127,7 +132,7 @@ public class InventoryBoard extends Board implements shipSelectorListener{
 
         shipHighlighter.setVisible(false);
 
-        for (shipPlacerListener listener : listeners) {
+        for (ShipPlacerListener listener : listeners) {
             listener.placeShip(length);
         }
     }
@@ -138,7 +143,7 @@ public class InventoryBoard extends Board implements shipSelectorListener{
 
         shipHighlighter.setVisible(false);
 
-        for (shipPlacerListener listener : listeners) {
+        for (ShipPlacerListener listener : listeners) {
             listener.placeAllShips(inventarioNavi);
         }
     }

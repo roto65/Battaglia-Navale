@@ -1,0 +1,142 @@
+[
+  {
+    "hit": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "pos": {
+      "x": 1,
+      "y": 1
+    },
+    "length": 4,
+    "facing": 0,
+    "affondata": false,
+    "isVisible": true
+  },
+  {
+    "hit": [
+      false,
+      false,
+      false
+    ],
+    "pos": {
+      "x": 6,
+      "y": 1
+    },
+    "length": 3,
+    "facing": 0,
+    "affondata": false,
+    "isVisible": true
+  },
+  {
+    "hit": [
+      false,
+      false,
+      false
+    ],
+    "pos": {
+      "x": 8,
+      "y": 1
+    },
+    "length": 3,
+    "facing": 0,
+    "affondata": false,
+    "isVisible": true
+  },
+  {
+    "hit": [
+      false,
+      false
+    ],
+    "pos": {
+      "x": 3,
+      "y": 1
+    },
+    "length": 2,
+    "facing": 0,
+    "affondata": false,
+    "isVisible": true
+  },
+  {
+    "hit": [
+      false,
+      false
+    ],
+    "pos": {
+      "x": 3,
+      "y": 4
+    },
+    "length": 2,
+    "facing": 0,
+    "affondata": false,
+    "isVisible": true
+  },
+  {
+    "hit": [
+      false,
+      false
+    ],
+    "pos": {
+      "x": 3,
+      "y": 7
+    },
+    "length": 2,
+    "facing": 0,
+    "affondata": false,
+    "isVisible": true
+  },
+  {
+    "hit": [
+      false
+    ],
+    "pos": {
+      "x": 6,
+      "y": 5
+    },
+    "length": 1,
+    "facing": 0,
+    "affondata": false,
+    "isVisible": true
+  },
+  {
+    "hit": [
+      false
+    ],
+    "pos": {
+      "x": 8,
+      "y": 5
+    },
+    "length": 1,
+    "facing": 0,
+    "affondata": false,
+    "isVisible": true
+  },
+  {
+    "hit": [
+      false
+    ],
+    "pos": {
+      "x": 6,
+      "y": 7
+    },
+    "length": 1,
+    "facing": 0,
+    "affondata": false,
+    "isVisible": true
+  },
+  {
+    "hit": [
+      false
+    ],
+    "pos": {
+      "x": 8,
+      "y": 7
+    },
+    "length": 1,
+    "facing": 0,
+    "affondata": false,
+    "isVisible": true
+  }
+]

@@ -16,13 +16,15 @@ import board.Board;
 
 public class Nave {
 
-    private final int TITLE_SIZE = Board.TITLE_SIZE;
+    //transient = not serializable
 
-    private ArrayList<BufferedImage> sprites;
+    private transient final int TITLE_SIZE = Board.TITLE_SIZE;
 
-    private BufferedImage spriteX = null;
+    private transient ArrayList<BufferedImage> sprites;
 
-    private boolean[] hit;
+    private transient BufferedImage spriteX = null;
+
+    public boolean[] hit;
 
     private Point pos;
 
@@ -109,6 +111,11 @@ public class Nave {
             return;
         }
 
+        if(sprites == null){
+            sprites = new ArrayList<>();
+            sprites = loadSprites();
+        }
+
         Graphics2D g2d = (Graphics2D) g;
 
         AffineTransform backup = g2d.getTransform();
@@ -143,22 +150,15 @@ public class Nave {
                     j = i;
                 }
 
-                if (i != length - 1) {
-
-                    g2d.rotate(rotation, locationX, locationY);
-                    g2d.drawImage(sprites.get(j), (pos.x + position[0]) * TITLE_SIZE,
-                            (pos.y + position[1]) * TITLE_SIZE, TITLE_SIZE,
-                            TITLE_SIZE, observer);
-
-                } else {
+                if (i == length - 1) {
 
                     rotation += Math.PI;
-                    g2d.rotate(rotation, locationX, locationY);
 
-                    g2d.drawImage(sprites.get(j), (pos.x + position[0]) * TITLE_SIZE,
-                            (pos.y + position[1]) * TITLE_SIZE, TITLE_SIZE,
-                            TITLE_SIZE, observer);
                 }
+                g2d.rotate(rotation, locationX, locationY);
+                g2d.drawImage(sprites.get(j), (pos.x + position[0]) * TITLE_SIZE,
+                        (pos.y + position[1]) * TITLE_SIZE, TITLE_SIZE,
+                        TITLE_SIZE, observer);
             }
         }
 
@@ -301,6 +301,10 @@ public class Nave {
         if(!this.inField()) {
             this.setPos(oldPos);
         }
+    }
+
+    public boolean getHit(int i) {
+        return hit[i];
     }
 
     public Point getPos() {

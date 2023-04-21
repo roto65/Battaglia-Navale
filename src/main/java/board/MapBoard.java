@@ -1,5 +1,6 @@
 package board;
 
+import JsonIO.ShipParser;
 import core.Nave;
 import core.Splutch;
 
@@ -10,11 +11,11 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MapBoard extends Board implements shipPlacerListener {
+public class MapBoard extends Board implements ShipPlacerListener {
 
     private Nave tempNave;
 
-    private final ArrayList<shipSelectorListener> listeners;
+    private final ArrayList<ShipSelectorListener> listeners;
 
     private static final Random r = new Random();
 
@@ -90,7 +91,7 @@ public class MapBoard extends Board implements shipPlacerListener {
 
             Window.toggleKeyListener("add", "inventoryBoard");
 
-            for (shipSelectorListener listener : listeners) {
+            for (ShipSelectorListener listener : listeners) {
                 listener.selectShip(true);
             }
         }
@@ -103,12 +104,12 @@ public class MapBoard extends Board implements shipPlacerListener {
         Window.toggleKeyListener("remove", "mapBoard");
         Window.toggleKeyListener("add", "inventoryBoard");
 
-        for (shipSelectorListener listener : listeners) {
+        for (ShipSelectorListener listener : listeners) {
             listener.selectShip(false);
         }
     }
 
-    public void addListener (shipSelectorListener listener) {
+    public void addListener (ShipSelectorListener listener) {
         listeners.add(listener);
     }
 
@@ -142,6 +143,7 @@ public class MapBoard extends Board implements shipPlacerListener {
             abortPlacement();
         }
         if (key == KeyEvent.VK_ENTER && fase2ready) {
+            ShipParser.saveShips(navi, "playerShips.json");
             Window.fase2();
         }
         if (key == KeyEvent.VK_ESCAPE) {
